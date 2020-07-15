@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### SPA
+
+http://single-spa-playground.org/playground/instant-test?name=@game-spa/home&url=%2F%2Flocalhost%3A8081%2Fjs%2Fapp.js&framework=vue
