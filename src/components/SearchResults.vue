@@ -33,8 +33,20 @@
 
         <v-list-item-action>
           <v-list-item-action-text>Favorite</v-list-item-action-text>
-          <v-icon color="red" v-if="!favorited">mdi-star-outline</v-icon>
-          <v-icon color="red" v-else>mdi-star</v-icon>
+          <v-icon 
+            v-if="!isFavorite(game)"
+            color="red" 
+            @click="favorite(game)"
+          >
+            mdi-star-outline
+          </v-icon>
+          <v-icon 
+            v-else
+            color="red" 
+            @click="unfavorite(game)"
+          >
+            mdi-star
+          </v-icon>
         </v-list-item-action>
       </v-list-item>
     </template>
@@ -42,6 +54,8 @@
 </template>
 
 <script>
+import { gameService } from '@game-spa/services';
+
 export default {
   name: 'SearchResults',
   props: {
@@ -53,6 +67,21 @@ export default {
       type: Array,
       required: true,
     },
+    favorites: {
+      type: Array,
+      required: true,
+    },
+  },
+  methods: {
+    favorite(game) {
+      this.$emit('favorited', game);
+    },
+    unfavorite(game) {
+      this.$emit('unfavorited', game);
+    },
+    isFavorite(game) {
+      return this.favorites.some(favorite => favorite.id === game.id);
+    }
   },
 };
 </script>

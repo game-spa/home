@@ -8,6 +8,9 @@
       v-if="results.length > 0"
       :search="value"
       :games="results"
+      :favorites="favorites"
+      @favorited="onFavorite"
+      @unfavorited="onUnfavorite"
     />
   </div>
 </template>
@@ -16,7 +19,7 @@
 import SearchCard from '@/components/SearchCard.vue';
 import SearchResults from '@/components/SearchResults.vue';
 
-import { findGame } from '@game-spa/services';
+import { gameService } from '@game-spa/services';
 
 export default {
   name: 'Home',
@@ -29,6 +32,7 @@ export default {
       loading: false,
       results: [],
       value: null,
+      favorites: [],
     };
   },
   methods: {
@@ -37,13 +41,25 @@ export default {
 
       this.loading = true;
 
-      const result = await findGame(value);
+      const result = await gameService.findGamesByName(value);
 
       this.results = result.results || [];
 
-      console.log(this.results);
+      this.setFavorites();
 
       this.loading = false;
+    },
+    setFavorites() {
+      const favorites = gameService.listFavorites() || [];
+      this.favorites = this.results.filter(game => favorites.some(favorite => favorite.id === game.id));
+    },
+    onFavorite(game) {
+      gameService.favorite(game);
+      this.favorites.push(game);
+    },
+    onUnfavorite(game) {
+      gameService.unfavorite(game);
+      this.favorites = this.favorites.filter(favorite => favorite.id !== game.id);
     }
   },
 };
