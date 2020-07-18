@@ -6,15 +6,15 @@ module.exports = {
   configureWebpack: {
     devServer: {
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*',
       },
       disableHostCheck: true,
       sockPort: 8081,
-      sockHost: "localhost",
+      sockHost: 'localhost',
       https: false,
       port: 8081,
     },
-    externals: ["vue", "vue-router", /^@game-spa\/.+/],
+    externals: ['vue', 'vue-router', /^@game-spa\/.+/],
   },
   filenameHashing: false,
 };
